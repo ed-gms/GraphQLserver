@@ -1,0 +1,22 @@
+{
+  "name": "gql-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ed-silva/GraphQLserver.git"
+  },
+  "author": "Eduardo Da Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ed-silva/GraphQLserver/issues"
+  },
+  "homepage": "https://github.com/ed-silva/GraphQLserver#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
