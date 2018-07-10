@@ -1,8 +1,9 @@
-const { buildSchema } = require("graphql");
+const { resolvers } = require("./resolvers_gql-tools");
+const { makeExecutableSchema } = require("graphql-tools");
 
 // the '!' means it's required
 // ***input type*** doesn't require the keyword 'type'
-const schema = buildSchema(`
+const typeDefs = `
   type User {
     id: ID
     firstName: String
@@ -48,6 +49,8 @@ const schema = buildSchema(`
   type Mutation {
     createUser(input: UserInput): User
   }
-`);
+`;
 
-module.exports = schema;
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+module.exports = { schema };

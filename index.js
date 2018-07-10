@@ -2,20 +2,16 @@ const express = require("express");
 const port = process.argv[2] || 8080;
 const app = express();
 const graphqlHTTP = require("express-graphql");
-const schema = require("./schema");
-const resolvers = require("./resolvers");
+const { schema } = require("./schema_gql-tools");
 
 app.get("/", (req, res) => {
   res.send("It's working!");
 });
 
-const root = resolvers;
-
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema: schema,
-    rootValue: root,
+    schema,
     graphiql: true
   })
 );
