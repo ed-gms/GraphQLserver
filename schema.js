@@ -13,7 +13,7 @@ const schema = buildSchema(`
   }
 
   type Query {
-    user: User
+    getUser(id: ID): User
   }
 
   input UserInput {
