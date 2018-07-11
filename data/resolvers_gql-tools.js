@@ -6,7 +6,7 @@ const resolvers = {
   Query: {
     getUser: ({ id }) => {
       return new User(id, userDatabase[id]);
-    }
+    },
   },
   Mutation: {
     createUser: (root, { input }) => {
@@ -17,20 +17,19 @@ const resolvers = {
         age: input.age,
         language: input.language,
         email: input.email,
-        contacts: input.contacts,
+        contacts: input.contacts
       });
 
       newUser.id = newUser._id;
 
-      return new Promise((resolvers, object) => {
+      return new Promise((resolve, object) => {
         newUser.save((err) => {
           if (err) reject(err)
           else resolve(newUser)
         })
       })
-    }
-  }
-
+    },
+  },
 };
 
-module.exports = resolvers;
+module.exports = { resolvers };
