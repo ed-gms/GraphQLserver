@@ -1,41 +1,56 @@
-class User {
-  constructor(id, { firstName, lastName, gender, age, language, email, contacts }) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.gender = gender;
-    this.age = age;
-    this.language = language;
-    this.email = email;
-    this.contacts = contacts;
-  }
-}
+const mongoose = require("mongoose");
+const { Users } = require("./dbConnectors");
 
-const userDatabase = {};
-
+// resolvers map
 const resolvers = {
-  // user: () => {
-  //   return {
-  //     id: 123456,
-  //     firstName: "John",
-  //     lastName: "Smith",
-  //     gender: "Male",
-  //     language: "English",
-  //     emails: [{ email: "js@yxz.com" }, { email: "js2@yxz.com" }]
-  //   };
-  // },
-
-  getUser: ({ id }) => {
-    return new User(id, userDatabase[id]);
+  Query: {
+    getOneUser: (root, { id }) => {
+      return new Promise((resolve, object) => {
+        Users.findById(id, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        });
+      });
+    }
   },
+  Mutation: {
+    createUser: (root, { input }) => {
+      const newUser = new Users({
+        firstName: input.firstName,
+        lastName: input.lastName,
+        gender: input.gender,
+        age: input.age,
+        language: input.language,
+        email: input.email,
+        contacts: input.contacts
+      });
 
-  createUser: ({ input }) => {
-    let id = require("crypto")
-      .randomBytes(10)
-      .toString("hex");
-    userDatabase[id] = input;
-    return new User(id, input);
-  }
+      newUser.id = newUser._id;
+
+      return new Promise((resolve, object) => {
+        newUser.save((err) => {
+          if (err) reject(err)
+          else resolve(newUser)
+        })
+      })
+    },
+    updateUser: (root, { input }) => {
+      return new Promise((resolve, object) => {
+        Users.findOneAndUpdate({ _id: input.id }, input, { new: true }, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        })
+      })
+    },
+    deleteUser: (root, { id }) => {
+      return new Promise((resolve, object) => {
+        Users.remove({ _id: id }, (err) => {
+          if (err) reject(err)
+          else resolve('User successfully deleted!')
+        })
+      })
+    }
+  },
 };
 
-module.exports = resolvers;
+module.exports = { resolvers };
