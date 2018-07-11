@@ -29,6 +29,22 @@ const resolvers = {
         })
       })
     },
+    updateUser: (root, { input }) => {
+      return new Promise((resolve, object) => {
+        Users.findOneAndUpdate({ _id: input.id }, input, { new: true }, (err, user) => {
+          if (err) reject(err);
+          else resolve(user);
+        })
+      })
+    },
+    deleteUser: (root, { id }) => {
+      return new Promise((resolve, object) => {
+        Users.remove({ _id: id }, (err) => {
+          if (err) reject(err)
+          else resolve('User successfully deleted!')
+        })
+      })
+    }
   },
 };
 
